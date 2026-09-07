@@ -9,6 +9,14 @@ environment:
 dependency_overrides:
   web_socket_channel: ^3.0.1
   test_api: 0.7.7
+  # test_core 0.6.20 / test 1.32.0 require test_api >=0.7.8, which the pin above
+  # forbids, so `flutter test` dies compiling scaffolding.dart with
+  # "Type 'Declarer' not found". pubspec.lock records the last working trio
+  # (test 1.31.1 / test_core 0.6.18 / test_api 0.7.7) but `flutter pub get`
+  # re-resolves past it; only an override holds. Upstream CarGuo/gsy_github_app_flutter
+  # is red the same way (run 34101527191).
+  test: 1.31.1
+  test_core: 0.6.18
   matcher: 0.12.17
   # path_provider_foundation 2.6.0 起改走纯 FFI（objective_c），podspec + Package.swift 双双移除，
   # iOS/macOS 端不再需要 plugin channel。pub 求解不会自动挑到 2.6.0，只能显式 override。
